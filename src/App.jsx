@@ -6,6 +6,8 @@ import {
 } from "react-router-dom";
 import Login from "./pages/login/login";
 import Registration from "./pages/registration/registration";
+import RootLayout from "./components/layouts/RootLayout";
+import Home from "./pages/home/Home"
 
 
 
@@ -15,6 +17,9 @@ function App() {
       <>
    <Route path="/" element={<Login/>} />
    <Route path="/Registration" element={<Registration/>}/>
+   <Route element={<RootLayout/>}>
+   <Route path="/home" element={<Home/>}/>
+   </Route>
       </>
     )
   )
