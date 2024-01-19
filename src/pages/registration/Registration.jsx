@@ -6,8 +6,18 @@ import CustomButton from '../../components/CustomButton'
 import AuthNavigate from '../../components/AuthNavigate'
 
  
-let [error, seError] = useState("ghjkk")
-console.log("setError")
+let [error,setError] = useState ({
+  email:"",
+  fullname:"",
+  password:""
+})
+
+let [signupData,setSignupData] = useState ({
+  email:"",
+  fullname:"",
+  password:""
+})
+
 
 let handleSubmit =() => {
    if(!signupData.email){
