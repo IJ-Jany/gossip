@@ -55,6 +55,13 @@ const Login = () => {
     setOpen(false)
   }
 
+  let handleForgotSubmit = () => {
+
+  }
+  let handleForgot = () => {
+
+  }
+
   return (
     <>
         <Box sx={{ flexGrow: 1 }}>
@@ -75,7 +82,7 @@ const Login = () => {
           <Input name="password" type={passShow ? "text" : "password"} style="login_input_field" labeltext="Password" variant="standard"/>
           <button onClick={()=>setPassShow(!passShow)}>show</button>
           </div>
-        <CustomButton  styling="loginbtn" variant="contained" text="Login to Continue"/>
+        <CustomButton styling="loginbtn" variant="contained" text="Login to Continue"/>
         </div>
         <AuthNavigate style="loginauth" link="/registration" linktext="sign up" text="Don’t have an account ? "/>  
         <p className="loginauth">
@@ -101,8 +108,8 @@ const Login = () => {
       <div className='forget_box'>
         <button onClick={handleModalClose}>Close</button>
       <h2>Forget password</h2>
-      <Input type="emaiL" labeltext="Email Address" variant="standard"/>
-      <CustomButton text="Send Link" variant="contained"/>
+      <Input onChange={handleForgot} type="emaiL" labeltext="Email Address" variant="standard"/>
+      <CustomButton onClick={handleForgotSubmit}  text="Send Link" variant="contained"/>
       </div>
         </Box>
 

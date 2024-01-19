@@ -4,9 +4,16 @@ import SectionHeading from '../../components/SectionHeading'
 import Input from '../../components/Input'
 import CustomButton from '../../components/CustomButton'
 import AuthNavigate from '../../components/AuthNavigate'
-
+import Alert from '@mui/material/Alert';
  
-let [error,setError] = useState ({
+
+
+
+
+
+const Registration = () => {
+
+  let [error,setError] = useState ({
   email:"",
   fullname:"",
   password:""
@@ -18,16 +25,26 @@ let [signupData,setSignupData] = useState ({
   password:""
 })
 
+let emailregex =  /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
 
 let handleSubmit =() => {
    if(!signupData.email){
-   setError.emailr("Enter Your Email Address")
-   }else if (!signupData.fullname){
-    setError.fullname("Enter Your Name")
+   setError({email:"Enter Your Email Address"})
+   }
+   else if(!signupData.email.match(emailregex)){
+    setError({email:"Enter A Valid Email"})
+   }
+   else if (!signupData.fullname){
+    setError({fullname:"Enter Your Name"})
    }else if (!signupData.password){
-    setError.password("Enter Your Password")
+    setError({password:"Enter Your Password"})
    }else{
-    console.log("done");
+    setError({
+       email:"",
+  fullname:"",
+  password:""
+    })
+    console.log("All done");
    }
 }
 
@@ -37,8 +54,6 @@ let handleForm =(e) => {
     ...signupData,[name]:value
   })
 }
-
-const Registration = () => {
   return (
     <Box sx={{ flexGrow: 1 }}>
     <Grid container spacing={0}>
@@ -49,15 +64,21 @@ const Registration = () => {
       <div className='form_main'>
         <div>
         <Input onChange={handleForm} name="email" type="email" style="login_input_field" labeltext="Email Adress" variant="outlined"/>
-        <p>{error}</p>
+        {error.email &&
+        <Alert severity="error">{error.email}</Alert>
+        }
         </div>
         <div>
         <Input onChange={handleForm} name="fullname" type="text" style="login_input_field" labeltext="FullName" variant="outlined"/>
-        <p>{error}</p>
+        {error.fullname &&
+        <Alert severity="error">{error.fullname}</Alert>
+        }
         </div>
         <div>
         <Input onChange={handleForm} name="password" type="password" style="login_input_field" labeltext="Password" variant="outlined"/>
-        <p>{error}</p>
+        {error.password &&
+        <Alert severity="error">{error.password}</Alert>
+        }
         </div>
       <CustomButton onClick={handleSubmit} styling="loginbtn" variant="contained" text="Sign up"/>
       </div>
