@@ -5,14 +5,16 @@ import Input from '../../components/Input'
 import CustomButton from '../../components/CustomButton'
 import AuthNavigate from '../../components/AuthNavigate'
 import Alert from '@mui/material/Alert';
- 
-
-
+import { getAuth, createUserWithEmailAndPassword,sendEmailVerification } from "firebase/auth";
+import { ColorRing } from 'react-loader-spinner'
+import { useNavigate } from "react-router-dom";
 
 
 
 const Registration = () => {
-
+  const auth = getAuth();
+  const navigate = useNavigate();
+  const [loader,setLoader] = useState(false)
   let [error,setError] = useState ({
   email:"",
   fullname:"",
@@ -39,13 +41,36 @@ let handleSubmit =() => {
    }else if (!signupData.password){
     setError({password:"Enter Your Password"})
    }else{
+    setLoader(true)
     setError({
        email:"",
-  fullname:"",
-  password:""
+       fullname:"",
+       password:""
     })
-    console.log("All done");
-   }
+    createUserWithEmailAndPassword(auth,signupData.email,signupData.password).then((userCredential)=>{
+      sendEmailVerification(auth.currentUser).then(()=>{
+
+      }) 
+      navigate("/")
+    }).catch((error)=>{
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      if(errorCode == "auth/email-already-in-use"){
+        setError({email:"Email already exist"})
+      }else{
+        setError({email:""})
+      }
+      console.log(errorMessage);
+    })
+    setSignupData({
+      email:"",
+      fullname:"",
+      password:""
+    })
+    setTimeout(()=>{
+      setLoader(false)
+    },2000)
+  }
 }
 
 let handleForm =(e) => {
@@ -63,24 +88,36 @@ let handleForm =(e) => {
       <SectionHeading style="auth_heading"  text=" Get started with easily register "/>
       <div className='form_main'>
         <div>
-        <Input onChange={handleForm} name="email" type="email" style="login_input_field" labeltext="Email Adress" variant="outlined"/>
+        <Input onChange={handleForm} name="email" value={signupData.email} type="email" style="login_input_field" labeltext="Email Adress" variant="outlined"/>
         {error.email &&
         <Alert severity="error">{error.email}</Alert>
         }
         </div>
         <div>
-        <Input onChange={handleForm} name="fullname" type="text" style="login_input_field" labeltext="FullName" variant="outlined"/>
+        <Input onChange={handleForm} name="fullname"  value={signupData.fullname}  type="text" style="login_input_field" labeltext="FullName" variant="outlined"/>
         {error.fullname &&
         <Alert severity="error">{error.fullname}</Alert>
         }
         </div>
         <div>
-        <Input onChange={handleForm} name="password" type="password" style="login_input_field" labeltext="Password" variant="outlined"/>
+        <Input onChange={handleForm} name="password"  value={signupData.password}  type="password" style="login_input_field" labeltext="Password" variant="outlined"/>
         {error.password &&
         <Alert severity="error">{error.password}</Alert>
         }
         </div>
-      <CustomButton onClick={handleSubmit} styling="loginbtn" variant="contained" text="Sign up"/>
+        {loader ?
+       <ColorRing
+       visible={true}
+       height="80"
+       width="80"
+       ariaLabel="color-ring-loading"
+       wrapperStyle={{}}
+       wrapperClass="color-ring-wrapper"
+       colors={['#e15b64', '#f47e60', '#f8b26a', '#abbd81', '#849b87']}
+       />
+       :
+       <CustomButton onClick={handleSubmit} styling="loginbtn" variant="contained" text="Sign up"/>
+      }
       </div>
       <AuthNavigate style="loginauth" link="/" linktext="sign in" text="Already have an account?"/>
       </div>

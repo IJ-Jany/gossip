@@ -15,6 +15,8 @@ import LoginImg from '../../assets/images/login.jpg'
 import Image from '../../utils/Image';
 import { useState } from 'react';
 import { Modal, Typography } from '@mui/material';
+import { getAuth, signInWithEmailAndPassword,signOut  } from "firebase/auth";
+import { useNavigate } from "react-router-dom"; 
 
 const style = {
   position: 'absolute',
@@ -45,6 +47,10 @@ const ValidationTextField = styled(TextField)({
 });
 
 const Login = () => {
+  const navigate = useNavigate();
+  const auth = getAuth();
+  let emailregex =  /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+
   let [passShow,setPassShow] =useState(false)
 
   const [open, setOpen] = React.useState(false);
@@ -55,8 +61,84 @@ const Login = () => {
     setOpen(false)
   }
 
-  let handleForgotSubmit = () => {
+  let [formData,setFormData] = useState({
+    email:""
+  })
 
+  let [error,setError] =  useState({
+    email:""
+  })
+  let handleLoginForm = (e) =>{
+      let {name,value} = e.target
+      setFormData({
+        ...formData,[name]:value
+      })
+  }
+
+  let handleLoginSubmit = () => {
+    if(!formData.email){
+      setError({email:"email ny"})
+    }else if(!formData.email.match(emailregex)){
+      setError({email:"email format thik ny"})
+    }else if(!formData.password){
+      setError({email:""});
+      setError({password:"password ny"});
+    }else{
+      signInWithEmailAndPassword(auth, formData.email, formData.password).then((userCredential) => {
+       console.log(userCredential);
+       if(userCredential.user.emailVerified){
+         navigate("/home")
+       }else{
+        signOut(userCredential.user).then(() => {
+          console.log("please verify your email");
+          console.log("logout donel");
+        })
+        console.log("please verify your email");
+       }
+      }) .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        if(errorCode == "auth/invalid-credential"){
+          setError({email:"email or password error"})
+        }else{
+          setError({email:""})
+        }
+        console.log(errorCode);
+        console.log(errorMessage);
+      });
+      setError({
+        email:""
+  
+      })
+      console.log(formData);
+    }
+  }
+
+  let [forgetFormData,setforgetFormData] = useState({
+    forgetemail:""
+  })
+
+  let [forgeterror,setforgetError] = useState({
+    forgetemail:""
+  })
+
+  let handleForgetData = (e) => {
+    let {name,value} = e.target
+    setforgetFormData({
+      ...forgetformData,[name]:value
+    })
+  }
+
+  let handleForgotSubmit = () => {
+    console.log(forgetformData);
+    if(!forgetformData.forgetemail){
+      setforgetError({forgetemail:"email ny"})
+    }else if (!forgetformData.forgetemail.match(emailregex)){
+      setforgetError({forgetemail:"email format thik ny"})
+    }else{
+      setforgetError({forgetemail:""})
+      console.log(forgetformData);
+    }
   }
   let handleForgot = () => {
 

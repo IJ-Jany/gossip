@@ -1,4 +1,84 @@
 *{
     padding: 0;
     margin: 0;
+    box-sizing: border-box;
+}
+ul,li{
+    list-style-type: none;
+}
+.groupcard{
+    width: 427px;
+    background-color: white;
+    border-radius: 20px;
+    padding: 25px;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+}
+.outletbox{
+    padding: 30px;
+}
+.group_heading{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.group_heading h4{
+  color: black;
+  font-size: 20px;
+}
+.group_heading .dots{
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: #ece7e7;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+.usermainbox{
+    margin-top: 17px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    overflow-y: scroll;
+    height: 350px;
+}
+.usermainbox::-webkit-scrollbar-thumb {
+    background: #888;
+   border-radius: 8px ;
+  }
+  
+.usermainbox::-webkit-scrollbar{
+    width: 5px;
+}
+.useritem{
+    padding-bottom: 13px;
+    border-bottom: 1px solid black;
+    display: flex;
+    column-gap: 14px;
+    align-items: center;
+
+}
+.useritem:last-child{
+    border-bottom: 0;
+}
+.userinfobox{
+    flex-basis: 75%;
+    align-items: center;
+    justify-content: space-between;
+    display: flex;
+
+}
+.addbutton{
+    cursor: pointer;
+    border-radius: 5px;
+    color: white;
+    background-color: blueviolet;
+    padding: 10px;
+    border: 0;
+}
+.homewrapper{
+    display: flex;
+    gap: 30px;
+    flex-wrap: wrap;
 }
