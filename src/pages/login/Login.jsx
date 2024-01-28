@@ -62,11 +62,13 @@ const Login = () => {
   }
 
   let [formData,setFormData] = useState({
-    email:""
+    email:"",
+    password:""
   })
 
   let [error,setError] =  useState({
-    email:""
+    email:"",
+    password:""
   })
   let handleLoginForm = (e) =>{
       let {name,value} = e.target
@@ -140,8 +142,9 @@ const Login = () => {
       console.log(forgetformData);
     }
   }
-  let handleForgot = () => {
-
+  let handleForgot = (e) => {
+  setFormData(e.target.value)
+ 
   }
 
   return (

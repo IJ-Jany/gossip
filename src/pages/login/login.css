@@ -78,9 +78,7 @@
 .forget_box{
    display: flex;
    flex-direction: column;
-   column-gap: 30px;
+   gap: 30px;
 }
-.forget_box h2{
-    margin-bottom: 0px;
-}
+
 

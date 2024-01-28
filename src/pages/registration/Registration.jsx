@@ -8,6 +8,8 @@ import Alert from '@mui/material/Alert';
 import { getAuth, createUserWithEmailAndPassword,sendEmailVerification } from "firebase/auth";
 import { ColorRing } from 'react-loader-spinner'
 import { useNavigate } from "react-router-dom";
+import RegistrationImg from "../../assets/images/registration.jpg"
+import Image from "../../utils/Image"
 
 
 
@@ -125,7 +127,7 @@ let handleForm =(e) => {
       </Grid>
       <Grid item xs={6}>
        <div className='loginimg'>
-      
+       <Image source={RegistrationImg} alt="img" />
        </div>
       </Grid>
     </Grid>
