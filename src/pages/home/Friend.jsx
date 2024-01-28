@@ -1,4 +1,6 @@
 import React from 'react'
+import GroupCard from '../../components/home/GroupCard'
+import { FaPlus } from "react-icons/fa";
 
 const Friend = () => {
   return (

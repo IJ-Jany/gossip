@@ -1,4 +1,6 @@
 import React from 'react'
+import GroupCard from '../../components/home/GroupCard'
+import { FaPlus } from "react-icons/fa";
 
 const userlist = () => {
   return (
@@ -7,7 +9,7 @@ const userlist = () => {
     <div className='usermainbox'>
      <div className='useritem'>
      <div className='userimgbox'>
-    <Image source="" alt="img"/>
+   
      </div>
      <div className='userinfobox'>
      <div>
@@ -23,7 +25,7 @@ const userlist = () => {
     <div className='usermainbox'>
      <div className='useritem'>
      <div className='userimgbox'>
-     <Image source="" alt="img"/>
+    
      </div>
      <div className='userinfobox'>
      <div>
@@ -39,7 +41,7 @@ const userlist = () => {
     <div className='usermainbox'>
      <div className='useritem'>
      <div className='userimgbox'>
-     <Image source="" alt="img"/>
+    
      </div>
      <div className='userinfobox'>
      <div>
