@@ -1,11 +1,10 @@
 import React from 'react'
 import GroupCard from '../../components/home/GroupCard'
-import { FaPlus } from "react-icons/fa";
 
-const Friend = () => {
+const FriendRequest = () => {
   return (
-    <div>
-  <GroupCard cardtitle="Friend">
+  <>
+  <GroupCard cardtitle="Friend Request">
     <div className='usermainbox'>
      <div className='useritem'>
      <div className='userimgbox'>
@@ -17,15 +16,14 @@ const Friend = () => {
       <p>Mern Developer</p>
      </div>
      <button className='addbutton'>
-      Block
+     Accept
       </button>
      </div>
      </div>
     </div>
  </GroupCard>
-
-    </div>
+  </>
   )
 }
 
-export default Friend
+export default FriendRequest

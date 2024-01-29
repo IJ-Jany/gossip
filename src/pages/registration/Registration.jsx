@@ -5,16 +5,17 @@ import Input from '../../components/Input'
 import CustomButton from '../../components/CustomButton'
 import AuthNavigate from '../../components/AuthNavigate'
 import Alert from '@mui/material/Alert';
-import { getAuth, createUserWithEmailAndPassword,sendEmailVerification } from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword,sendEmailVerification ,updateProfile} from "firebase/auth";
 import { ColorRing } from 'react-loader-spinner'
 import { useNavigate } from "react-router-dom";
 import RegistrationImg from "../../assets/images/registration.jpg"
 import Image from "../../utils/Image"
-
+import { getDatabase, ref, set } from "firebase/database";
 
 
 const Registration = () => {
   const auth = getAuth();
+  const db = getDatabase();
   const navigate = useNavigate();
   const [loader,setLoader] = useState(false)
   let [error,setError] = useState ({
@@ -49,12 +50,28 @@ let handleSubmit =() => {
        fullname:"",
        password:""
     })
-    createUserWithEmailAndPassword(auth,signupData.email,signupData.password).then((userCredential)=>{
+    createUserWithEmailAndPassword(auth,signupData.email,signupData.password).then
+    ((userCredential)=>{
       sendEmailVerification(auth.currentUser).then(()=>{
-
-      }) 
-      navigate("/")
-    }).catch((error)=>{
+console.log("email send done");
+      })
+    
+    updateProfile(auth.currentUser,{
+      displayName:signupData.fullname,
+      photoURL:"https://media.istockphoto.com/id/1337144146/vector/default-avatar-profile-icon-vector.jpg?s=612x612&w=0&k=20&c=BIbFwuv7FxTWvh5S3vB6bkT0Qv8Vn8N5Ffseq84ClGI="
+    }).then(()=>{
+      set(ref(db, 'users/' + userCredential.user.uid), {
+        username:  userCredential.user.displayName,
+        email:  userCredential.user.email,
+        profileimg :  userCredential.user.photoURL
+      }).then(()=>{
+        navigate("/")
+      })
+      console.log(userCredential.user);
+    })
+     console.log(userCredential.user);
+      })
+    .catch((error)=>{
       const errorCode = error.code;
       const errorMessage = error.message;
       if(errorCode == "auth/email-already-in-use"){

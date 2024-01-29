@@ -17,6 +17,8 @@ import { useState } from 'react';
 import { Modal, Typography } from '@mui/material';
 import { getAuth, signInWithEmailAndPassword,signOut  } from "firebase/auth";
 import { useNavigate } from "react-router-dom"; 
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const style = {
   position: 'absolute',
@@ -87,13 +89,22 @@ const Login = () => {
       setError({password:"password ny"});
     }else{
       signInWithEmailAndPassword(auth, formData.email, formData.password).then((userCredential) => {
-       console.log(userCredential);
+      // console.log(userCredential);
        if(userCredential.user.emailVerified){
          navigate("/home")
+         console.log(userCredential.user);
        }else{
-        signOut(userCredential.user).then(() => {
-          console.log("please verify your email");
-          console.log("logout donel");
+        signOut(auth).then(() => {
+          toast.error('Please verify your account', {
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "dark",
+            });
         })
         console.log("please verify your email");
        }
@@ -109,7 +120,8 @@ const Login = () => {
         console.log(errorMessage);
       });
       setError({
-        email:""
+        email:"",
+        password:""
   
       })
       console.log(formData);
@@ -149,6 +161,18 @@ const Login = () => {
 
   return (
     <>
+    <ToastContainer
+position="top-right"
+autoClose={5000}
+hideProgressBar={false}
+newestOnTop={false}
+closeOnClick
+rtl={false}
+pauseOnFocusLoss
+draggable
+pauseOnHover
+theme="dark"
+/>
         <Box sx={{ flexGrow: 1 }}>
       <Grid container spacing={0}>
         <Grid item xs={6}>

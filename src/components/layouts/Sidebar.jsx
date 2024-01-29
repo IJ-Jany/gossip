@@ -5,12 +5,21 @@ import { Link, NavLink } from 'react-router-dom';
 import { AiOutlineMessage } from "react-icons/ai";
 import { IoMdNotificationsOutline } from "react-icons/io";
 import { IoSettingsOutline } from "react-icons/io5";
-
-
+import { getAuth, signInWithEmailAndPassword,signOut  } from "firebase/auth";
+import { toast } from 'react-toastify';
+import { useNavigate } from "react-router-dom"; 
 
 
 
 const Sidebar = () => {
+  const auth = getAuth();
+  const navigate = useNavigate();
+  let handlelogout = () =>{
+signOut(auth).then(()=>{
+  toast("logout done")
+  navigate("/")
+})
+  }
   return (
   <>
   <div className='sidebarBox'>
@@ -35,7 +44,7 @@ const Sidebar = () => {
       </ul>
     </div>
     <div>
-    <button className='logout'>Logout</button>
+    <button onClick={ handlelogout} className='logout'>Logout</button>
     </div>
   </div>
   </>
