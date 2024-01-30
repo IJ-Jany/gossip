@@ -105,8 +105,8 @@ const Login = () => {
             progress: undefined,
             theme: "dark",
             });
-        })
-        console.log("please verify your email");
+          },500)
+        //console.log("please verify your email");
        }
       }) .catch((error) => {
         const errorCode = error.code;

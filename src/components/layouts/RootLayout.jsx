@@ -1,7 +1,7 @@
 import { Box, Grid } from '@mui/material'
 import React from 'react'
 import './layout.css'
-import Sidebar from './sidebar'
+import Sidebar from './Sidebar'
 import { Outlet } from 'react-router-dom'
 
 
