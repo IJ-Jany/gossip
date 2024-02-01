@@ -6,10 +6,10 @@ import { AiOutlineMessage } from "react-icons/ai";
 import { IoMdNotificationsOutline } from "react-icons/io";
 import { IoSettingsOutline } from "react-icons/io5";
 import { getAuth, signInWithEmailAndPassword,signOut  } from "firebase/auth";
-import { toast } from 'react-toastify';
 import { useNavigate } from "react-router-dom"; 
 import 'react-toastify/dist/ReactToastify.css'; 
 import Image from '../../utils/Image';
+import { ToastContainer, toast } from 'react-toastify';
 
 
 const Sidebar = () => {
@@ -33,6 +33,7 @@ signOut(auth).then(()=>{
 })
   }
   const userinfo = auth.currentUser;
+  console.log(userinfo.displayName);
   return (
   <>
      <ToastContainer

@@ -53,24 +53,26 @@ let handleSubmit =() => {
     createUserWithEmailAndPassword(auth,signupData.email,signupData.password).then
     ((userCredential)=>{
       sendEmailVerification(auth.currentUser).then(()=>{
-console.log("email send done");
-      })
-    
-    updateProfile(auth.currentUser,{
-      displayName:signupData.fullname,
-      photoURL:"https://media.istockphoto.com/id/1337144146/vector/default-avatar-profile-icon-vector.jpg?s=612x612&w=0&k=20&c=BIbFwuv7FxTWvh5S3vB6bkT0Qv8Vn8N5Ffseq84ClGI="
-    }).then(()=>{
-      set(ref(db, 'users/' + userCredential.user.uid), {
-        username:  userCredential.user.displayName,
-        email:  userCredential.user.email,
-        profileimg :  userCredential.user.photoURL
+
+   //navigate("/")
+   updateProfile(auth.currentUser,{
+    displayName:signupData.fullname,
+    photoURL:"https://media.istockphoto.com/id/1337144146/vector/default-avatar-profile-icon-vector.jpg?s=612x612&w=0&k=20&c=BIbFwuv7FxTWvh5S3vB6bkT0Qv8Vn8N5Ffseq84ClGI="
+  
       }).then(()=>{
-        navigate("/")
+
+
+        set(ref(db, 'users/' + userCredential.user.uid), {
+          username:  userCredential.user.displayName,
+          email:  userCredential.user.email,
+          profileimg :  userCredential.user.photoURL
+        }).then(()=>{
+          navigate("/")
+          console.log(userCredential.user);
+        })
       })
-      console.log(userCredential.user);
+      })
     })
-     console.log(userCredential.user);
-      })
     .catch((error)=>{
       const errorCode = error.code;
       const errorMessage = error.message;

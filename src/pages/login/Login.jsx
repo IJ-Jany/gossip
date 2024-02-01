@@ -95,17 +95,19 @@ const Login = () => {
          console.log(userCredential.user);
        }else{
         signOut(auth).then(() => {
-          toast.error('Please verify your account', {
-            position: "top-right",
-            autoClose: 3000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "dark",
-            });
-          },500)
+          setTimeout(()=>{
+            toast.error('Please verify your account', {
+              position: "top-right",
+              autoClose: 3000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "dark",
+              });
+            },500)
+          })
         //console.log("please verify your email");
        }
       }) .catch((error) => {
@@ -191,7 +193,7 @@ theme="dark"
           <Input name="password" type={passShow ? "text" : "password"} style="login_input_field" labeltext="Password" variant="standard"/>
           <button onClick={()=>setPassShow(!passShow)}>show</button>
           </div>
-        <CustomButton styling="loginbtn" variant="contained" text="Login to Continue"/>
+        <CustomButton onClick={handleLoginSubmit} styling="loginbtn" variant="contained" text="Login to Continue"/>
         </div>
         <AuthNavigate style="loginauth" link="/registration" linktext="sign up" text="Don’t have an account ? "/>  
         <p className="loginauth">
