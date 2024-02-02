@@ -187,10 +187,10 @@ theme="dark"
         </div>
         <div className='form_main'>
           <div>
-          <Input name="email" type="email" style="login_input_field" labeltext="Email Adress" variant="standard"/>
+          <Input name="email" type="email" style="login_input_field" labeltext="Email Adress" variant="standard" onChange={handleLoginForm}/>
           </div>
           <div>
-          <Input name="password" type={passShow ? "text" : "password"} style="login_input_field" labeltext="Password" variant="standard"/>
+          <Input name="password" type={passShow ? "text" : "password"} style="login_input_field" onChange={handleLoginForm} labeltext="Password" variant="standard"/>
           <button onClick={()=>setPassShow(!passShow)}>show</button>
           </div>
         <CustomButton onClick={handleLoginSubmit} styling="loginbtn" variant="contained" text="Login to Continue"/>

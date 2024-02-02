@@ -18,18 +18,20 @@ const Sidebar = () => {
 
   let handlelogout = () =>{
 signOut(auth).then(()=>{
-  toast("logout done")
-  navigate("/")
-  toast.success('Logout Successfully', {
-    position: "top-right",
-    autoClose: 3000,
-    hideProgressBar: false,
-    closeOnClick: true,
-    pauseOnHover: true,
-    draggable: true,
-    progress: undefined,
-    theme: "dark",
-    });
+  toast("logout done");
+  navigate("/");
+  setTimeout(()=>{
+    toast.success('Logout Successfully', {
+      position: "top-right",
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "dark",
+      });
+  },600);
 })
   }
   const userinfo = auth.currentUser;
