@@ -19,6 +19,8 @@ import { getAuth, signInWithEmailAndPassword,signOut  } from "firebase/auth";
 import { useNavigate } from "react-router-dom"; 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useSelector, useDispatch } from 'react-redux'
+import { loginuser } from '../../slices/userslice';
 
 const style = {
   position: 'absolute',
@@ -50,6 +52,7 @@ const ValidationTextField = styled(TextField)({
 
 const Login = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch()
   const auth = getAuth();
   let emailregex =  /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
 
@@ -91,6 +94,9 @@ const Login = () => {
       signInWithEmailAndPassword(auth, formData.email, formData.password).then((userCredential) => {
       // console.log(userCredential);
        if(userCredential.user.emailVerified){
+
+        localStorage.setItem("user",JSON.stringify(userCredential.user));
+        dispatch(loginuser(userCredential.user))
          navigate("/home")
          console.log(userCredential.user);
        }else{

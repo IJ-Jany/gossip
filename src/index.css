@@ -82,3 +82,7 @@ ul,li{
     gap: 30px;
     flex-wrap: wrap;
 }
+.buttongroup{
+    display: flex;
+    gap: 6px;
+}
