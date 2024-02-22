@@ -15,7 +15,7 @@ import { loginuser } from '../../slices/userslice';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import Modal from '@mui/material/Modal';
+import {Modal} from '@mui/material/Modal';
 import { FaCloudUploadAlt } from "react-icons/fa";
 import { useState } from 'react';
 
@@ -39,9 +39,12 @@ const Sidebar = () => {
   const navigate = useNavigate();
   const dispatch=useDispatch();
 
+
+const defaultSrc =
+"https://raw.githubusercontent.com/roadmanfong/react-cropper/master/example/img/child.jpg";
   const [image, setImage] = useState(defaultSrc);
   const [cropData, setCropData] = useState("#");
-  const cropperRef = createRef;
+
 
   const onChange = (e) => {
     e.preventDefault();

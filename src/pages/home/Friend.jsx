@@ -34,7 +34,7 @@ const Friend = () => {
       { friendList && friendList.map((item,index)=>(
        <div key={index} className='useritem'>
        <div className='userimgbox'>
-       <Image source={data.uid == item.whosendid ? item.whoreceivephoto : item.whosendphoto} alt='img'/>
+       <Image source={data.uid == item.whosendid ? item.whoreceivephoto  : item.whosendphoto} alt='img'/>
        </div>
        <div className='userinfobox'>
        <div>

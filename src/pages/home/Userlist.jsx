@@ -11,7 +11,7 @@ const userlist = () => {
   const [userList,setUserList] = useState()
   const db = getDatabase();
   const data = useSelector((state) => state.loginuserdata.value) 
-  console.log(data.uid);
+  //console.log(data.uid);
   const [fRequest,setfRequest] = useState()
 
 

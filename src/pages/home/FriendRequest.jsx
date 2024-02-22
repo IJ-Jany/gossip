@@ -17,7 +17,7 @@ remove(ref(db,"friendrequest/" + cancleinfo.id)).then(()=>{
 })
   }
   let handleAcceptfRequest =(acceptinfo) =>{
-    console.log(acceptinfo);
+
     set(push(ref(db,"friendrequest")),{
      whosendname:acceptinfo.sendername,
      whosendid:acceptinfo.senderid,
