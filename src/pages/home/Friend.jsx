@@ -3,8 +3,8 @@ import GroupCard from '../../components/home/GroupCard'
 import { FaPlus } from "react-icons/fa";
 import Image from '../../utils/Image';
 import { useState,useEffect } from 'react';
-import { getDatabase, ref, onValue } from "firebase/database";
-import { useSelector, useDispatch ,set,push} from 'react-redux'
+import { getDatabase, ref, onValue ,set,push} from "firebase/database";
+import { useSelector, useDispatch} from 'react-redux'
 import { toast } from 'react-toastify';
 
 const Friend = () => {
@@ -26,6 +26,19 @@ const Friend = () => {
     });
    },[])  
 
+let handleblock = (blockinfo)=>{
+   set(push(ref(db,"block")),{
+    whoblockid:data.uid,
+    whoblockname:data.displayName,
+    whoblockimg:data.photouRL,
+    blockid:blockinfo.whoreceiveid,
+    bloockname:blockinfo.whoreceivename,
+    blockimg:blockinfo.whoreceivephoto,
+   }).then(()=>{
+    remove(ref(db,"friends/"+blockinfo.id))
+   })
+}
+
 
   return (
    <>
@@ -46,18 +59,23 @@ const Friend = () => {
         }
         <p>Mern Developer</p>
        </div>
-       <button className='addbutton'>
+       <button onClick={()=>handleblock(item)} className='addbutton'>
         Block
         </button>
        </div>
        </div>
       ))
-     }
+      :
+      <h1>no friend available...</h1>
+      }
     </div>
    </GroupCard>
   
-   </>
-      )
-     }
+  
+
+  </>
+  )
+}
+     
 
 export default Friend

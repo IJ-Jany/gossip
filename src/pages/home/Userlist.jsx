@@ -1,18 +1,20 @@
 import React, { useEffect } from 'react'
 import GroupCard from '../../components/home/GroupCard'
 import { FaPlus } from "react-icons/fa";
-import { getDatabase, ref, onValue } from "firebase/database";
+import { getDatabase, ref, onValue ,set,push} from "firebase/database";
 import Image from '../../utils/Image';
-import { useSelector, useDispatch ,set,push} from 'react-redux'
+import { useSelector, useDispatch} from 'react-redux'
 import { ToastContainer, toast } from 'react-toastify';
+import { useState } from 'react';
 
 
-const userlist = () => {
+const Userlist = () => {
   const [userList,setUserList] = useState()
   const db = getDatabase();
   const data = useSelector((state) => state.loginuserdata.value) 
   //console.log(data.uid);
-  const [fRequest,setfRequest] = useState()
+  const [fRequest,setfRequest] = useState([])
+  const [friendList, setfriendList]=useState([])
 
 
  useEffect(()=>{
@@ -30,7 +32,7 @@ const userlist = () => {
 
  let handlefrequest = (frequestinfo) => {
 
-  set(push(ref(db,"friendrequest")),{
+  set(ref(db,"friendrequest/" + frequestinfo.id),{
     senderid:data.uid,
     sendername:data.displayName,
     senderimg:data.photoURL, 
@@ -57,8 +59,23 @@ const userlist = () => {
    
 },[])
 
-let handleCancle = ()=>{
+useEffect(()=>{
+  const friendsRef = ref(db, 'friends');
+  onValue(friendsRef, (snapshot) =>{
+    let arr = []
+    snapshot.forEach((item)=>{
+      if(item.val().whoreceiveid == data.uid || item.val().whosendid == data.uid){
+        arr.push(item.val().whoreceiveid + item.val().whosendid)
+      }
+    })
+    setfriendList(arr)
+  });
+},[])
 
+let handleCancle = ()=>{
+  remove(ref(db,"friendrequest/" + i.id)).then(()=>{
+    toast("Request cancel")
+})
 }
   return (
     <>
@@ -77,12 +94,19 @@ let handleCancle = ()=>{
        <h3>{item.username}</h3>
        <p>Mern Developer</p>
       </div>
-      { fRequest && fRequest.includes(item.id + data.uid ) || fRequest.includes(data.uid + item.id)
+      {fRequest.length > 0 && fRequest.includes(item.id + data.uid ) || fRequest.includes(data.uid + item.id)
       ?
+      <>
+      <button className='addbutton'>pending</button>
       <button  onClick={()=>handleCancle(item)} className='addbutton'>cancel</button>
+      </>
       :
+friendList.includes(item.id = data.uid) || friendList.includes( data.uid = item.id)
+?
+<button className='addbutton'>friend</button>
+:
       <button onClick={()=>handlefrequest(item)} className='addbutton'>
-      <FaPlus/>
+     add
       </button>
        }
       </div>
@@ -98,4 +122,4 @@ let handleCancle = ()=>{
   )
 }
 
-export default userlist
+export default Userlist
