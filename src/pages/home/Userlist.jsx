@@ -94,14 +94,14 @@ let handleCancle = ()=>{
        <h3>{item.username}</h3>
        <p>Mern Developer</p>
       </div>
-      {fRequest.length > 0 && fRequest.includes(item.id + data.uid ) || fRequest.includes(data.uid + item.id)
+      {fRequest && fRequest.length > 0 && fRequest.includes(item.id + data.uid ) || fRequest.includes(data.uid + item.id)
       ?
       <>
       <button className='addbutton'>pending</button>
       <button  onClick={()=>handleCancle(item)} className='addbutton'>cancel</button>
       </>
       :
-friendList.includes(item.id = data.uid) || friendList.includes( data.uid = item.id)
+friendList.includes(item.id == data.uid) || friendList.includes( data.uid == item.id)
 ?
 <button className='addbutton'>friend</button>
 :

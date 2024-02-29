@@ -44,7 +44,7 @@ let handleblock = (blockinfo)=>{
    <>
   <GroupCard cardtitle="Friend">
     <div className='usermainbox'>
-      { friendList && friendList.map((item,index)=>(
+      { friendList ? friendList.map((item,index)=>(
        <div key={index} className='useritem'>
        <div className='userimgbox'>
        <Image source={data.uid == item.whosendid ? item.whoreceivephoto  : item.whosendphoto} alt='img'/>
