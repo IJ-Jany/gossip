@@ -13,11 +13,8 @@ import { ToastContainer, toast } from 'react-toastify';
 import { useSelector, useDispatch } from 'react-redux'
 import { loginuser } from '../../slices/userslice';
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
-import Modal from '@mui/material/Modal';
-import { FaCloudUploadAlt } from "react-icons/fa";
-import { useState } from 'react';
+import { Modal } from '@mui/material';
+
 
 
 const style = {
@@ -39,86 +36,57 @@ const Sidebar = () => {
   const navigate = useNavigate();
   const dispatch=useDispatch();
 
-
-const defaultSrc =
-"https://raw.githubusercontent.com/roadmanfong/react-cropper/master/example/img/child.jpg";
-  const [image, setImage] = useState(defaultSrc);
-  const [cropData, setCropData] = useState("#");
-
-
-  const onChange = (e) => {
-    e.preventDefault();
-    let files;
-    if (e.dataTransfer) {
-      files = e.dataTransfer.files;
-    } else if (e.target) {
-      files = e.target.files;
-    }
-    const reader = new FileReader();
-    reader.onload = () => {
-      setImage(reader.result);
-    };
-    reader.readAsDataURL(files[0]);
-  };
-
-  const getCropData = () => {
-    if (typeof cropperRef.current?.cropper !== "undefined") {
-      setCropData(cropperRef.current?.cropper.getCroppedCanvas().toDataURL());
-    }
-
-     let handleImage = () =>{
-      console.log(e);
-     }
-
-  const [open, setOpen] = React.useState(false);
+  const[open,setOpen]=React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
   useEffect(()=>{
-  if(!data){
-    navigate("/")
-  }else{
-    navigate("/home")
-  }
-  },[])
+    if(!data){
+      navigate("/")
+    }else{
+      navigate("/home")
+    }
+    },[]);
 
-  let handlelogout = () =>{
-signOut(auth).then(()=>{
-  localStorage.removeItem("user")
-  dispatch(loginuser(null))
-  toast("logout done");
-  navigate("/");
-  setTimeout(()=>{
-    toast.success('Logout Successfully', {
-      position: "top-right",
-      autoClose: 3000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "dark",
+    let handlelogout = () =>{
+      signOut(auth).then(()=>{
+        localStorage.removeItem("user")
+        dispatch(loginuser(null))
+        toast("logout done");
+        navigate("/");
+        setTimeout(()=>{
+          toast.success('Logout Successfully', {
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "dark",
+            });
+        },600);
       });
-  },600);
-})
-  }
-  const userinfo = auth.currentUser;
+        };
+
   return (
   <>
-      <Modal
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
-        <Box sx={style}>
-         <h2>Upload Profile Photo</h2>
-         <div className='imgholder'>
-         <Image source={data && data.photoURL} alt="img"/>
-         </div>
-         <input type="file"  onChange={handleImage}/>
-        </Box>
-      </Modal> 
+
+  <Modal
+  open={open}
+  onClose={handleClose}
+  aria-labelledby="modal-modal-title"
+  aria-describedby="modal-modal-description"
+  >
+    <Box sx={style}>
+      <h2>Upload Profile photo</h2>
+      <div className='imgholder'>
+        <Image source={data && data.photoURL} alt="img" />
+      </div>
+      <input type='file'/>
+    </Box>
+   </Modal>
+    
 
      <ToastContainer
 position="top-right"
@@ -135,10 +103,7 @@ theme="dark"
   <div className='sidebarBox'>
     <div className='img_box'>
      <Image source={data && data.photoURL}/>
-     <div onClick={handleopen} className='overlay'>
-     <FaCloudUploadAlt />
      </div>
-    </div>
    <h3 className='username'>{data && data.displayName}</h3>
     <div>
        <ul className='navigation'>
@@ -161,8 +126,8 @@ theme="dark"
     </div>
   </div>
   </>
-  )
-}
-}
+  );
+};
+
 
 export default Sidebar

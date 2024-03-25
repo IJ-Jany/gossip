@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import GroupCard from '../../components/home/GroupCard'
 import { FaPlus } from "react-icons/fa";
-import { getDatabase, ref, onValue ,set,push} from "firebase/database";
+import { getDatabase, ref, onValue ,set,push,remove} from "firebase/database";
 import Image from '../../utils/Image';
 import { useSelector, useDispatch} from 'react-redux'
 import { ToastContainer, toast } from 'react-toastify';
@@ -9,12 +9,13 @@ import { useState } from 'react';
 
 
 const Userlist = () => {
-  const [userList,setUserList] = useState()
+  const [userList,setUserList] = useState();
   const db = getDatabase();
   const data = useSelector((state) => state.loginuserdata.value) 
   //console.log(data.uid);
   const [fRequest,setfRequest] = useState([])
   const [friendList, setfriendList]=useState([])
+  const [requestCheck,setRequestCheck]=useState([])
 
 
  useEffect(()=>{
@@ -30,6 +31,7 @@ const Userlist = () => {
   });
  },[])
 
+ //add friend operation
  let handlefrequest = (frequestinfo) => {
 
   set(ref(db,"friendrequest/" + frequestinfo.id),{
@@ -39,25 +41,34 @@ const Userlist = () => {
     recieverid:frequestinfo.id,
     recievername:frequestinfo.username,
     recieverimg:frequestinfo.profileimg
-  } .then(()=>{
+  }).then(()=>{
     toast("Friend request send successfully")
-  }))
- }
+  });
+ };
 
-
+//friend request data
  useEffect(()=>{
   const fRequestRef = ref(db,'friendrequest');
   onValue(fRequestRef, (snapshot) => {
     let arr  = [] 
+    let xyz=[]
     snapshot.forEach((item) => {
+      if(item.val().receiverid ==  data.uid){
+        xyz.push(item.val().senderid + item.val().receiverid)
+      }
      if(data.uid == item.val().senderid){
       arr.push(item.val().senderid + item.val().receiverid)
      }
     })
     setfRequest(arr)
+    setRequestCheck(xyz)
   });
    
 },[])
+
+
+console.log(fRequest);
+console.log(requestCheck);
 
 useEffect(()=>{
   const friendsRef = ref(db, 'friends');
@@ -72,19 +83,20 @@ useEffect(()=>{
   });
 },[])
 
-let handleCancle = ()=>{
+let handleCancle = (i)=>{
   remove(ref(db,"friendrequest/" + i.id)).then(()=>{
     toast("Request cancel")
-})
-}
+});
+};
   return (
     <>
     <ToastContainer/>
      <GroupCard cardtitle="userlist">
     <div className='usermainbox'>
      {userList && userList.length > 0
-     ?
+     ?(
      userList.map((item,index)=>{
+      return (
       <div key={index} className='useritem'>
       <div className='userimgbox'>
      <Image source={item.profileimg} alt='img'/>
@@ -94,32 +106,40 @@ let handleCancle = ()=>{
        <h3>{item.username}</h3>
        <p>Mern Developer</p>
       </div>
-      {fRequest && fRequest.length > 0 && fRequest.includes(item.id + data.uid ) || fRequest.includes(data.uid + item.id)
-      ?
+      {( fRequest.length > 0 && fRequest.includes(item.id + data.uid )) || fRequest.includes(data.uid + item.id)
+      ?(
       <>
       <button className='addbutton'>pending</button>
       <button  onClick={()=>handleCancle(item)} className='addbutton'>cancel</button>
       </>
+      )
       :
-friendList.includes(item.id == data.uid) || friendList.includes( data.uid == item.id)
-?
+friendList.includes(item.id + data.uid) || friendList.includes( data.uid + item.id)
+? (
 <button className='addbutton'>friend</button>
-:
+) :
+requestCheck.includes(item.id + data.uid)
+?
+<button className='addbutton'>confirm koro </button>
+    :
+    (
       <button onClick={()=>handlefrequest(item)} className='addbutton'>
      add
-      </button>
-       }
+     </button>
+     ) 
+    }
       </div>
       </div>
+     );
      })
-     :
+    ) : (
      <h2>No user available</h2>
 
-     }
+     )}
     </div>
  </GroupCard>
     </>
-  )
-}
+  );
+};
 
 export default Userlist

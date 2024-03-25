@@ -2,8 +2,8 @@ import React, {useEffect,useState} from 'react'
 import GroupCard from '../../components/home/GroupCard'
 import Image from '../../utils/Image'
 //import { getDatabase } from 'firebase/database'
-import { UseSelector } from 'react-redux'
-import { getDatabase, ref, onValue ,set,push} from "firebase/database";
+import { useSelector } from 'react-redux';
+import { getDatabase, ref, onValue ,set,push,remove} from "firebase/database";
 
 const Blocklist = () => {
 
@@ -39,6 +39,7 @@ const Blocklist = () => {
         <h3>{item.blockname}</h3>
         <p>MERN DEVELOPER</p>
      </div>
+     <button className='addbutton'> Unblock</button>
      </div>
     </div>
 ))}

@@ -18,17 +18,17 @@ remove(ref(db,"friendrequest/" + cancleinfo.id)).then(()=>{
   }
   let handleAcceptfRequest =(acceptinfo) =>{
 
-    set(push(ref(db,"friendrequest")),{
+    set(push(ref(db,"friends")),{
      whosendname:acceptinfo.sendername,
      whosendid:acceptinfo.senderid,
      whosendphoto:acceptinfo.senderimg,
      whoreceivename:data.displayname,
      whoreceiveid:data.uid,
      whoreceivephoto:data.photoURL
-    } .then(()=>{
+    }).then(()=>{
       remove(ref(db,"friendrequest/" + acceptinfo.id))
       toast("Request accepted")
-    }))
+    });
   }
 
   useEffect(()=>{
@@ -44,15 +44,15 @@ remove(ref(db,"friendrequest/" + cancleinfo.id)).then(()=>{
     });
    
    },[])
-   console.log(fRequest);
 
   
 
   return (
   <>
+  <ToastContainer/>
   <GroupCard cardtitle="Friend Request">
     <div className='usermainbox'>
-      {fRequest && fRequest.length > 0 ?
+      {fRequest && fRequest.length > 0 ? (
       fRequest.map((item,index)=>(
         <div key={index} className='useritem'>
         <div className='userimgbox'>
@@ -74,9 +74,9 @@ remove(ref(db,"friendrequest/" + cancleinfo.id)).then(()=>{
         </div>
         </div>
       ))
-      :
+      ) : (
       <h2>No request found.....</h2>
-    }
+   ) }
     </div>
  </GroupCard>
   </>

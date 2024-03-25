@@ -6,6 +6,7 @@ import GroupCard from '../../components/home/GroupCard';
 import { FaPlus } from "react-icons/fa";
 import FriendRequest from './FriendRequest';
 import Userlist from './Userlist';
+import Blocklist from './Blocklist';
 
 const Home = () => {
   return (
@@ -13,6 +14,7 @@ const Home = () => {
    <Userlist/>
   <Friend/>
   <FriendRequest/>
+  <Blocklist/>
   
       </div>
   )}

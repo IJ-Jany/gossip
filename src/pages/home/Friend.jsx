@@ -3,7 +3,7 @@ import GroupCard from '../../components/home/GroupCard'
 import { FaPlus } from "react-icons/fa";
 import Image from '../../utils/Image';
 import { useState,useEffect } from 'react';
-import { getDatabase, ref, onValue ,set,push} from "firebase/database";
+import { getDatabase, ref, onValue ,set,push,remove} from "firebase/database";
 import { useSelector, useDispatch} from 'react-redux'
 import { toast } from 'react-toastify';
 
@@ -30,7 +30,7 @@ let handleblock = (blockinfo)=>{
    set(push(ref(db,"block")),{
     whoblockid:data.uid,
     whoblockname:data.displayName,
-    whoblockimg:data.photouRL,
+    whoblockimg:data.photoURL,
     blockid:blockinfo.whoreceiveid,
     bloockname:blockinfo.whoreceivename,
     blockimg:blockinfo.whoreceivephoto,
@@ -44,7 +44,7 @@ let handleblock = (blockinfo)=>{
    <>
   <GroupCard cardtitle="Friend">
     <div className='usermainbox'>
-      { friendList ? friendList.map((item,index)=>(
+      { friendList && friendList.length > 0 ? (friendList.map((item,index)=>(
        <div key={index} className='useritem'>
        <div className='userimgbox'>
        <Image source={data.uid == item.whosendid ? item.whoreceivephoto  : item.whosendphoto} alt='img'/>
@@ -52,11 +52,11 @@ let handleblock = (blockinfo)=>{
        <div className='userinfobox'>
        <div>
         {data.uid == item.whosendid
-        ?
+        ? (
         <h3>{item.whoreceiveame}</h3>
-        :
+         ) : (
         <h3>{item.whosendname}</h3>
-        }
+       ) }
         <p>Mern Developer</p>
        </div>
        <button onClick={()=>handleblock(item)} className='addbutton'>
@@ -65,9 +65,9 @@ let handleblock = (blockinfo)=>{
        </div>
        </div>
       ))
-      :
+   ) : (
       <h1>no friend available...</h1>
-      }
+      )}
     </div>
    </GroupCard>
   
